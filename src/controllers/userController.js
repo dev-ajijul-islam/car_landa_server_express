@@ -49,7 +49,7 @@ const createUser = async (req, res) => {
   }
 };
 
-///===================create user======================
+///===================login user======================
 const login = async (req, res) => {
   const { idToken } = await req.query;
   try {
