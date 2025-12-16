@@ -1,6 +1,9 @@
 const Car = require("../models/Car");
 const connectDB = require("../config/db.js");
 const { Query } = require("firebase-admin/firestore");
+const mongoose = require("mongoose");
+
+///============================get cars===========================
 
 const getCars = async (req, res) => {
   const { limit, carTypeId, title, isFeatured, isHotDeal, isActive } =
@@ -37,4 +40,41 @@ const getCars = async (req, res) => {
   }
 };
 
-module.exports = { getCars };
+///============================get car by id ===========================
+
+const getCarById = async (req, res) => {
+  const { id } = await req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send({
+      success: false,
+      message: "Car not found",
+      body: null,
+    });
+  }
+
+  try {
+    await connectDB();
+    const result = await Car.findById(id);
+    if (!result) {
+      return res.status(404).send({
+        success: false,
+        message: "Car not found",
+        body: result,
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Car loaded successfully",
+      body: result,
+    });
+  } catch (e) {
+    res.status(400).send({
+      success: false,
+      message: "Car Loading failed",
+    });
+  }
+};
+
+module.exports = { getCars, getCarById };
