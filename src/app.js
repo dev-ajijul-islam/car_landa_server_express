@@ -3,17 +3,20 @@ const userRoutes = require("./routes/userRoutes.js");
 const carRoutes = require("./routes/carRoutes.js");
 const carTypeIdRoutes = require("./routes/carTypeRoutes.js");
 const getCarBrands = require("./controllers/carBrandController.js");
-const carModelRoutes = require("./routes/carModelRoutes.js")
+const carModelRoutes = require("./routes/carModelRoutes.js");
 const carFuelTypeRouts = require("./routes/carFuelTypeRoutes.js");
+const carLocationRoutes = require("./routes/carLocationRoutes.js");
+
 const app = express();
 
 app.use(express.json());
 
 app.use("/user", userRoutes);
-app.use("/cars",carRoutes);
-app.use("/carType",carTypeIdRoutes);
-app.use("/carBrands",getCarBrands);
-app.use("/carModels",carModelRoutes);
-app.use("/carFuelTypes",carFuelTypeRouts);
+app.use("/cars", carRoutes);
+app.use("/carType", carTypeIdRoutes);
+app.use("/carBrands", getCarBrands);
+app.use("/carModels", carModelRoutes);
+app.use("/carFuelTypes", carFuelTypeRouts);
+app.use("/carLocations", carLocationRoutes);
 
 module.exports = app;

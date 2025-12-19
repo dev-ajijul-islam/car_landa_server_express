@@ -5,7 +5,6 @@ const getCarFurlTypes = async (req, res) => {
   await connectDB();
   const { brand, model } = await req.query;
   let query = {};
-
   if (brand) {
     query.brand = brand;
   }
