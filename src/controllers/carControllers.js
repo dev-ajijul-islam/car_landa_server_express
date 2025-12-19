@@ -3,7 +3,7 @@ const connectDB = require("../config/db.js");
 const { Query } = require("firebase-admin/firestore");
 const mongoose = require("mongoose");
 
-///============================get cars===========================
+///============================get cars with title search , type , and flags  ===========================
 
 const getCars = async (req, res) => {
   const { limit, carTypeId, title, isFeatured, isHotDeal, isActive } =
@@ -26,7 +26,7 @@ const getCars = async (req, res) => {
     if (isActive) {
       query["flags.isActive"] = isActive == "true";
     }
-    const result = await Car.find(query).limit(limit);
+    const result = await Car.find(query).limit(limit).sort();
     res.status(200).send({
       success: true,
       message: "Car Loaded successfully",
