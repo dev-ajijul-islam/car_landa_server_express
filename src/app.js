@@ -4,6 +4,7 @@ const carRoutes = require("./routes/carRoutes.js");
 const carTypeIdRoutes = require("./routes/carTypeRoutes.js");
 const getCarBrands = require("./controllers/carBrandController.js");
 const carModelRoutes = require("./routes/carModelRoutes.js")
+const carFuelTypeRouts = require("./routes/carFuelTypeRoutes.js");
 const app = express();
 
 app.use(express.json());
@@ -13,5 +14,6 @@ app.use("/cars",carRoutes);
 app.use("/carType",carTypeIdRoutes);
 app.use("/carBrands",getCarBrands);
 app.use("/carModels",carModelRoutes);
+app.use("/carFuelTypes",carFuelTypeRouts);
 
 module.exports = app;
