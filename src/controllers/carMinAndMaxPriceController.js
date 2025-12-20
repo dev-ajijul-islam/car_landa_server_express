@@ -18,7 +18,7 @@ const getMinAndmaxPrice = async (req, res) => {
 
     const max = Math.max(...result);
     const min = Math.min(...result);
-
+console.log(`----------------------------------------------${min,max}`);
     res.status(200).send({
       success: true,
       message: "loading car min and max price success",
