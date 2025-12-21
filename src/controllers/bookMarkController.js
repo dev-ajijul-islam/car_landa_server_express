@@ -1,14 +1,35 @@
-const connectDB = require("../");
+const connectDB = require("../db");
+const Favorite = require("../models/Favorite");
 
 const createBookMark = async (req, res) => {
-  const { carId, userId } = await req.body;
+  const { carId } = req.body;
+  const userId = req.user.id;
+
   await connectDB();
 
   try {
-   
+    const favorite = await Favorite.create({
+      userId,
+      carId,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: favorite,
+    });
   } catch (e) {
-    res.status(500).send({
+    if (e.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: "Already bookmarked",
+      });
+    }
+
+    res.status(500).json({
       success: false,
+      message: "Server error",
     });
   }
 };
+
+module.exports = createBookMark;
