@@ -1,7 +1,7 @@
 const connectDB = require("../db");
 const Favorite = require("../models/Favorite");
 
-const createBookMark = async (req, res) => {
+const createFavorite = async (req, res) => {
   const { carId } = req.body;
   const userId = req.user.id;
 
@@ -32,4 +32,4 @@ const createBookMark = async (req, res) => {
   }
 };
 
-module.exports = createBookMark;
+module.exports = createFavorite;
