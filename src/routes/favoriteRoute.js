@@ -1,11 +1,8 @@
-const epress = require("express");
-const {createFavorite} = require("../controllers/bookFavoriteController")
+const express = require("express");
+const createFavorite = require("../controllers/favoriteCarsController");
 
 const router = express.Router();
 
-
-router.post("/",createFavorite);
-
-
+router.post("/", createFavorite);
 
 module.exports = router;

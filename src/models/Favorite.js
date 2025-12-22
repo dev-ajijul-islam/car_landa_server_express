@@ -34,4 +34,4 @@ favoriteSchema.index(
   { unique: true }
 );
 
-export default model("Favorite", favoriteSchema);
+module.exports =  mongoose.model("Favorite", favoriteSchema);

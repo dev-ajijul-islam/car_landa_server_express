@@ -8,7 +8,7 @@ const carFuelTypeRouts = require("./routes/carFuelTypeRoutes.js");
 const carLocationRoutes = require("./routes/carLocationRoutes.js");
 const carMinAndmaxYearRoutes = require("./routes/carMinAndMaxYearRoutes.js");
 const carMinAndmaxPriceRoutes = require("./routes/carMinAndMaxPriceRoutes.js");
-const favoriteRoutes = rwquire("./routes/favoriteRoutes.js");
+const favoriteRoutes = require("./routes/favoriteRoute.js");
 
 const app = express();
 

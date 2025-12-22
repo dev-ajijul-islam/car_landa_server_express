@@ -1,4 +1,5 @@
-const connectDB = require("../db");
+
+const connectDB = require("../config/db");
 const Favorite = require("../models/Favorite");
 
 const createFavorite = async (req, res) => {
