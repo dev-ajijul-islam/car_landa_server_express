@@ -15,7 +15,8 @@ const createFavorite = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      data: favorite,
+      message : "Added to favorite success",
+      body: favorite,
     });
   } catch (e) {
     if (e.code === 11000) {
