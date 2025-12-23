@@ -9,6 +9,7 @@ const carLocationRoutes = require("./routes/carLocationRoutes.js");
 const carMinAndmaxYearRoutes = require("./routes/carMinAndMaxYearRoutes.js");
 const carMinAndmaxPriceRoutes = require("./routes/carMinAndMaxPriceRoutes.js");
 const favoriteRoutes = require("./routes/favoriteRoute.js");
+const authMiddleware = require("./middlewares/authMiddleware.js");
 
 const app = express();
 
@@ -23,6 +24,6 @@ app.use("/carFuelTypes", carFuelTypeRouts);
 app.use("/carLocations", carLocationRoutes);
 app.use("/carMinAndMaxYear", carMinAndmaxYearRoutes);
 app.use("/carMinAndMaxPrice", carMinAndmaxPriceRoutes);
-app.use("/favorite",favoriteRoutes);
+app.use("/favorite",authMiddleware,favoriteRoutes);
 
 module.exports = app;

@@ -1,4 +1,3 @@
-
 const connectDB = require("../config/db");
 const Favorite = require("../models/Favorite");
 
