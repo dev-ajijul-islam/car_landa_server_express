@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/user", userRoutes);
-app.use("/cars", carRoutes);
+app.use("/cars",authMiddleware, carRoutes);
 app.use("/carType", carTypeIdRoutes);
 app.use("/carBrands", getCarBrands);
 app.use("/carModels", carModelRoutes);

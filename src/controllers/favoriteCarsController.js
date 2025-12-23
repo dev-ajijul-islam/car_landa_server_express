@@ -1,6 +1,8 @@
 const connectDB = require("../config/db");
 const Favorite = require("../models/Favorite");
 
+//=================================create favorite ===============================
+
 const createFavorite = async (req, res) => {
   const { carId } = req.body;
   const userId = req.user.id;
@@ -33,4 +35,28 @@ const createFavorite = async (req, res) => {
   }
 };
 
-module.exports = createFavorite;
+//=================================get a favorite cars========================
+const getFavoriteCars= async(req,res)=>{
+  const userId = await req.user.id;
+
+  try{
+    const favorites = await Favorite.find({userId : userId}).populate("carId").lean();
+    const result = favorites.map(fav => ({
+      ...fav.carId,
+      isFavorite: true
+    }));
+    res.status(200).send({
+      success : true,
+      message : "getting favorite car success",
+      body : result
+    })
+  }catch(e){
+      res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+
+}
+
+module.exports = {createFavorite,getFavoriteCars};
