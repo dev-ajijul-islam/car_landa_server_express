@@ -17,7 +17,7 @@ const createFavorite = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message : "Added to favorite success",
+      message: "Added to favorite success",
       body: favorite,
     });
   } catch (e) {
@@ -36,27 +36,52 @@ const createFavorite = async (req, res) => {
 };
 
 //=================================get a favorite cars========================
-const getFavoriteCars= async(req,res)=>{
+const getFavoriteCars = async (req, res) => {
   const userId = await req.user.id;
 
-  try{
-    const favorites = await Favorite.find({userId : userId}).populate("carId").lean();
-    const result = favorites.map(fav => ({
+  try {
+    const favorites = await Favorite.find({ userId: userId })
+      .populate("carId")
+      .lean();
+    const result = favorites.map((fav) => ({
       ...fav.carId,
-      isFavorite: true
+      isFavorite: true,
     }));
     res.status(200).send({
-      success : true,
-      message : "getting favorite car success",
-      body : result
-    })
-  }catch(e){
-      res.status(500).json({
+      success: true,
+      message: "getting favorite car success",
+      body: result,
+    });
+  } catch (e) {
+    res.status(500).json({
       success: false,
       message: "Server error",
     });
   }
+};
 
-}
+//===========================================delete favorite ================================
+const deleteFavorite = async (req, res) => {
+  const { id } = await req.params;
+  const user = req.user;
+  try {
+    const favorite = await Favorite.findOne({ carId: id, userId: user.id });
+    if (!favorite) {
+      return res.status(404).send({
+        success: false,
+        message: "favorite not found",
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: "favorite deleted successfully",
+    });
+  } catch (e) {
+    res.status(500).send({
+      success: true,
+      message: `removing favorite failed ${e.message}`,
+    });
+  }
+};
 
-module.exports = {createFavorite,getFavoriteCars};
+module.exports = { createFavorite, getFavoriteCars,deleteFavorite };
