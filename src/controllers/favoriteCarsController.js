@@ -72,9 +72,11 @@ const deleteFavorite = async (req, res) => {
         message: "favorite not found",
       });
     }
+    const result = await Favorite.deleteOne(favorite._id);
     return res.status(200).send({
       success: true,
       message: "favorite deleted successfully",
+      body: result,
     });
   } catch (e) {
     res.status(500).send({
@@ -84,4 +86,4 @@ const deleteFavorite = async (req, res) => {
   }
 };
 
-module.exports = { createFavorite, getFavoriteCars,deleteFavorite };
+module.exports = { createFavorite, getFavoriteCars, deleteFavorite };

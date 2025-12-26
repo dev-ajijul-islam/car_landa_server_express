@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/user", userRoutes);
-app.use("/cars",authMiddleware, carRoutes);
+app.use("/cars", authMiddleware, carRoutes);
 app.use("/carType", carTypeIdRoutes);
 app.use("/carBrands", getCarBrands);
 app.use("/carModels", carModelRoutes);
@@ -24,6 +24,6 @@ app.use("/carFuelTypes", carFuelTypeRouts);
 app.use("/carLocations", carLocationRoutes);
 app.use("/carMinAndMaxYear", carMinAndmaxYearRoutes);
 app.use("/carMinAndMaxPrice", carMinAndmaxPriceRoutes);
-app.use("/favorite",authMiddleware,favoriteRoutes);
+app.use("/favorite", authMiddleware, favoriteRoutes);
 
 module.exports = app;
