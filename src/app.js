@@ -10,7 +10,8 @@ const carMinAndmaxYearRoutes = require("./routes/carMinAndMaxYearRoutes.js");
 const carMinAndmaxPriceRoutes = require("./routes/carMinAndMaxPriceRoutes.js");
 const favoriteRoutes = require("./routes/favoriteRoute.js");
 const authMiddleware = require("./middlewares/authMiddleware.js");
-const orderRoutes = require("./routes/orderRoutes");
+const orderRoutes = require("./routes/orderRoutes.js");
+const trackingRoutes = require("./routes/trackingRoutes.js");
 
 const app = express();
 
@@ -27,5 +28,6 @@ app.use("/carMinAndMaxYear", carMinAndmaxYearRoutes);
 app.use("/carMinAndMaxPrice", carMinAndmaxPriceRoutes);
 app.use("/favorite", authMiddleware, favoriteRoutes);
 app.use("/orders", authMiddleware, orderRoutes);
+app.use("/tracking", authMiddleware, trackingRoutes);
 
 module.exports = app;
