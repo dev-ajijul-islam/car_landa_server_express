@@ -26,6 +26,6 @@ app.use("/carLocations", carLocationRoutes);
 app.use("/carMinAndMaxYear", carMinAndmaxYearRoutes);
 app.use("/carMinAndMaxPrice", carMinAndmaxPriceRoutes);
 app.use("/favorite", authMiddleware, favoriteRoutes);
-app.use("/api/orders", authMiddleware, orderRoutes);
+app.use("/orders", authMiddleware, orderRoutes);
 
 module.exports = app;
