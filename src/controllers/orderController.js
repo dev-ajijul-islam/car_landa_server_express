@@ -50,17 +50,17 @@ const createOrder = async (req, res) => {
         {
           title: "Payment Pending",
           subtitle: "Waiting for payment confirmation.",
-          iconCodePoint: 59552, // payment
+          iconCodePoint: 59552, 
           isFirst: false,
           isPast: false,
-          isCurrent: false,    // NOT current (payment not done)
-          isUpcoming: true,    // This is upcoming
+          isCurrent: false,    
+          isUpcoming: true,   
           isLast: false
         },
         {
           title: "Vehicle Prepared",
           subtitle: "Your vehicle is being prepared for shipping.",
-          iconCodePoint: 59614, // build
+          iconCodePoint: 59614, 
           isFirst: false,
           isPast: false,
           isCurrent: false,
@@ -70,7 +70,7 @@ const createOrder = async (req, res) => {
         {
           title: "Vehicle Shipped",
           subtitle: "Your vehicle has been loaded onto the vessel.",
-          iconCodePoint: 59658, // local_shipping
+          iconCodePoint: 59658, 
           isFirst: false,
           isPast: false,
           isCurrent: false,
@@ -80,7 +80,7 @@ const createOrder = async (req, res) => {
         {
           title: "Vessel Departure",
           subtitle: "The ship carrying your car has departed the port.",
-          iconCodePoint: 58009, // directions_boat
+          iconCodePoint: 58009, 
           isFirst: false,
           isPast: false,
           isCurrent: false,
@@ -90,7 +90,7 @@ const createOrder = async (req, res) => {
         {
           title: "Arrived at Port",
           subtitle: "Your car has reached the destination port.",
-          iconCodePoint: 57689, // anchor
+          iconCodePoint: 57689, 
           isFirst: false,
           isPast: false,
           isCurrent: false,
@@ -100,7 +100,7 @@ const createOrder = async (req, res) => {
         {
           title: "Delivered",
           subtitle: "Congratulations! Your vehicle has been delivered.",
-          iconCodePoint: 59530, // check_circle
+          iconCodePoint: 59530, 
           isFirst: false,
           isPast: false,
           isCurrent: false,
@@ -108,7 +108,7 @@ const createOrder = async (req, res) => {
           isLast: true
         }
       ],
-      currentStatusIndex: 0, // Order Placed is current (index 0)
+      currentStatusIndex: 0, 
       isCompleted: false
     });
 

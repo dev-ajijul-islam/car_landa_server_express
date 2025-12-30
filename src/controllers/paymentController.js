@@ -22,10 +22,8 @@ const handleIPN = async (req, res) => {
       });
     }
 
-    // Extract order ID from transaction ID (format: orderId_timestamp)
-    const orderId = tran_id.split('_')[0];
+    const orderId = tran_id.split("_")[0];
 
-    // Find the order
     const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({
@@ -34,8 +32,7 @@ const handleIPN = async (req, res) => {
       });
     }
 
-    // Check if payment already processed
-    if (order.paymentStatus === 'Paid') {
+    if (order.paymentStatus === "Paid") {
       return res.status(200).json({
         success: true,
         message: "Payment already processed",
@@ -45,7 +42,7 @@ const handleIPN = async (req, res) => {
     // Validate payment amount
     const paymentAmount = parseFloat(amount);
     const orderAmount = order.totalAmount;
-    
+
     if (Math.abs(paymentAmount - orderAmount) > 0.01) {
       return res.status(400).json({
         success: false,
@@ -54,19 +51,16 @@ const handleIPN = async (req, res) => {
     }
 
     // Process based on payment status
-    if (status === 'VALID' || status === 'VALIDATED') {
-      // Update order payment status
-      order.paymentStatus = 'Paid';
-      order.paymentMethod = 'SSLCommerz';
+    if (status === "VALID" || status === "VALIDATED") {
+      order.paymentStatus = "Paid";
+      order.paymentMethod = "SSLCommerz";
       order.paymentTransactionId = bank_tran_id || tran_id;
       order.paymentDate = new Date();
       order.ipnValidated = true;
       await order.save();
 
-      // Update tracking status to "Payment Confirmed" (index 1)
       const tracking = await Tracking.findOne({ orderId: order._id });
       if (tracking) {
-        // Set status index to 1 (Payment Confirmed)
         await tracking.updateStatus(1);
       }
 
@@ -74,9 +68,8 @@ const handleIPN = async (req, res) => {
         success: true,
         message: "Payment confirmed successfully",
       });
-    } else if (status === 'FAILED' || status === 'CANCELLED') {
-      // Update order payment status to Failed
-      order.paymentStatus = 'Failed';
+    } else if (status === "FAILED" || status === "CANCELLED") {
+      order.paymentStatus = "Failed";
       await order.save();
 
       return res.status(200).json({
@@ -84,13 +77,11 @@ const handleIPN = async (req, res) => {
         message: "Payment failed or cancelled",
       });
     } else {
-      // Other statuses (PENDING, UNATTEMPTED, etc.)
       return res.status(200).json({
         success: false,
         message: `Payment status: ${status}`,
       });
     }
-
   } catch (error) {
     console.error("IPN processing error:", error);
     return res.status(500).json({
@@ -121,7 +112,7 @@ const confirmPayment = async (req, res) => {
     }
 
     // Check if already paid
-    if (order.paymentStatus === 'Paid') {
+    if (order.paymentStatus === "Paid") {
       return res.status(200).json({
         success: true,
         message: "Order already paid",
@@ -129,8 +120,8 @@ const confirmPayment = async (req, res) => {
     }
 
     // Update order
-    order.paymentStatus = 'Paid';
-    order.paymentMethod = 'SSLCommerz';
+    order.paymentStatus = "Paid";
+    order.paymentMethod = "SSLCommerz";
     order.paymentTransactionId = transactionId || `manual_${Date.now()}`;
     order.paymentDate = new Date();
     await order.save();
@@ -138,15 +129,21 @@ const confirmPayment = async (req, res) => {
     // Update tracking
     const tracking = await Tracking.findOne({ orderId: order._id });
     if (tracking) {
-      await tracking.updateStatus(1);
+      const statusIndex = 1;
+      tracking.statusList.forEach((status, index) => {
+        status.isPast = index < statusIndex;
+        status.isCurrent = index === statusIndex;
+        status.isUpcoming = index > statusIndex;
+      });
+      tracking.currentStatusIndex = statusIndex;
+      await tracking.save();
     }
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Payment confirmed manually",
       body: order,
     });
-
   } catch (error) {
     console.error("Manual confirmation error:", error);
     return res.status(500).json({
@@ -161,8 +158,10 @@ const getPaymentStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
 
-    const order = await Order.findById(orderId).select('paymentStatus paymentMethod paymentDate totalAmount');
-    
+    const order = await Order.findById(orderId).select(
+      "paymentStatus paymentMethod paymentDate totalAmount"
+    );
+
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -178,10 +177,9 @@ const getPaymentStatus = async (req, res) => {
         paymentMethod: order.paymentMethod,
         paymentDate: order.paymentDate,
         totalAmount: order.totalAmount,
-        currency: 'USD',
+        currency: "USD",
       },
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,

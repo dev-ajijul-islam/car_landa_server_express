@@ -32,6 +32,6 @@ app.use("/carMinAndMaxPrice", carMinAndmaxPriceRoutes);
 app.use("/favorite", authMiddleware, favoriteRoutes);
 app.use("/orders", authMiddleware, orderRoutes);
 app.use("/tracking", authMiddleware, trackingRoutes);
-app.use('/api/payment', paymentRoutes);
+app.use('/payment',authMiddleware, paymentRoutes);
 
 module.exports = app;
