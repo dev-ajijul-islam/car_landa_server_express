@@ -86,4 +86,63 @@ const login = async (req, res) => {
   }
 };
 
+
+
+///=================== update user profile ======================
+
+const updateProfile = async (req, res) => {
+  try {
+    await connectDB();
+
+    const { userId } = req.user; 
+
+    const {
+      name,
+      phone,
+      address,
+      passportIdUrl,
+    } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        ...(name && { name }),
+        ...(phone && { phone }),
+        ...(address && { address }),
+        ...(passportIdUrl && { passportIdUrl }),
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).select("-__v");
+
+    if (!updatedUser) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Profile updated successfully",
+      body: updatedUser,
+    });
+  } catch (e) {
+    if (e.name === "ValidationError") {
+      return res.status(422).send({
+        success: false,
+        message: e.message,
+      });
+    }
+
+    res.status(500).send({
+      success: false,
+      message: e.message,
+    });
+  }
+};
+
+
 module.exports = { createUser, login };
