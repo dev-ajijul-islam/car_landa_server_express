@@ -40,10 +40,10 @@ const createOrder = async (req, res) => {
         {
           title: "Order Placed",
           subtitle: "Your order has been placed successfully.",
-          iconCodePoint: 58344, // receipt_long
+          iconCodePoint: 58344, 
           isFirst: true,
-          isPast: false,      // NOT past yet
-          isCurrent: true,    // THIS is current (index 0)
+          isPast: false,      
+          isCurrent: true,    
           isUpcoming: false,
           isLast: false
         },
@@ -126,28 +126,42 @@ const createOrder = async (req, res) => {
   }
 };
 
-// ================================= Get User Orders ========================
+// ================================= Get User Orders with Tracking ========================
 const getMyOrders = async (req, res) => {
   const userId = req.user.id;
 
   try {
     const orders = await Order.find({ userId: userId })
-      .populate("carId") 
-      .sort({ createdAt: -1 }) 
+      .populate("carId")
+      .sort({ createdAt: -1 })
       .lean();
+
+    const ordersWithTracking = await Promise.all(
+      orders.map(async (order) => {
+        const tracking = await Tracking.findOne({ orderId: order._id }).lean();
+        return {
+          ...order,
+          tracking: tracking?.statusList || [],
+        };
+      })
+    );
 
     res.status(200).send({
       success: true,
-      message: "Orders retrieved successfully",
-      body: orders,
+      message: "Orders with tracking retrieved successfully",
+      body: ordersWithTracking,
     });
   } catch (e) {
+    console.error(e);
     res.status(500).json({
       success: false,
-      message: "Server error while fetching orders",
+      message: "Server error while fetching orders with tracking",
     });
   }
 };
+
+module.exports = { getMyOrders };
+
 
 // ================================= Get Order Details ========================
 const getOrderDetails = async (req, res) => {
