@@ -12,6 +12,7 @@ admin.initializeApp({
 const createUser = async (req, res) => {
   const body = await req.body;
   try {
+
     await connectDB();
     const exist = await User.findOne({ email: body.email });
     const isGoogleUser = body.authenticatedBy == "google";
@@ -21,6 +22,7 @@ const createUser = async (req, res) => {
         return res.status(201).send({
           success: true,
           message: "Sign In successfully",
+          body : exist
         });
       }
       return res.status(409).send({
@@ -34,6 +36,7 @@ const createUser = async (req, res) => {
     res.status(201).send({
       success: true,
       message: "Registration successfully",
+      body : result
     });
   } catch (e) {
     if (e.name == "ValidationError") {
@@ -63,7 +66,7 @@ const login = async (req, res) => {
       res.status(200).send({
         success: true,
         message: "Login successfull",
-        body: decodedToken,
+        body: userFromDB,
       });
     } else {
       res.status(401).send({
@@ -94,22 +97,26 @@ const updateProfile = async (req, res) => {
   try {
     await connectDB();
 
-    const { userId } = req.user; 
+    const { id } = req.user; 
+
+    console.log(id);
 
     const {
       name,
       phone,
       address,
       passportIdUrl,
+      photo
     } = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
-      userId,
+      id,
       {
         ...(name && { name }),
         ...(phone && { phone }),
         ...(address && { address }),
         ...(passportIdUrl && { passportIdUrl }),
+        ...(photo && { photo }),
       },
       {
         new: true,
@@ -145,4 +152,4 @@ const updateProfile = async (req, res) => {
 };
 
 
-module.exports = { createUser, login };
+module.exports = { createUser, login ,updateProfile};

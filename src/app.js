@@ -1,5 +1,6 @@
 const express = require("express");
 const userRoutes = require("./routes/userRoutes.js");
+const userUpdateRoutes = require("./routes/updateUserRoute.js");
 const carRoutes = require("./routes/carRoutes.js");
 const carTypeIdRoutes = require("./routes/carTypeRoutes.js");
 const getCarBrands = require("./controllers/carBrandController.js");
@@ -21,6 +22,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/user", userRoutes);
+app.use("/users/update", userUpdateRoutes);
 app.use("/cars", authMiddleware, carRoutes);
 app.use("/carType", carTypeIdRoutes);
 app.use("/carBrands", getCarBrands);
