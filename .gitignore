@@ -1,3 +1,4 @@
 node_modules
 .env
 carlanda-3b43b-firebase-adminsdk-fbsvc-248df20638.json
+.vercel

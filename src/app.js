@@ -21,6 +21,13 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/",(req,res)=>{
+    return res.status(200).send({
+        success : true,
+        message : "carLanda server running"
+    })
+});
+
 app.use("/user", userRoutes);
 app.use("/users/update", userUpdateRoutes);
 app.use("/cars", authMiddleware, carRoutes);
@@ -35,5 +42,6 @@ app.use("/favorite", authMiddleware, favoriteRoutes);
 app.use("/orders", authMiddleware, orderRoutes);
 app.use("/tracking", authMiddleware, trackingRoutes);
 app.use('/payment',authMiddleware, paymentRoutes);
+
 
 module.exports = app;
