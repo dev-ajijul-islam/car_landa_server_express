@@ -8,7 +8,7 @@ const createNotification = async (req, res) => {
     const result = await Notification.create(data);
     res.status(200).send({
       success: true,
-      message: "notification get succesfully",
+      message: "notification created succesfully",
       body: result,
     });
   } catch (e) {
@@ -20,10 +20,11 @@ const createNotification = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
-  const { userId } = await req.params;
+ 
+  const { uid } = await req.fireUser;
   await connectDB();
   try {
-    const result = await Notification.find({ userId });
+    const result = await Notification.find({ userId : uid });
     res.status(200).send({
       success: true,
       message: "notification get succesfully",

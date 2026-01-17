@@ -22,6 +22,8 @@ const authMiddleware = async (req, res, next) => {
 
     const decodedUser = await admin.auth().verifyIdToken(token);
 
+    console.log(`-----------------------------------------------------${decodedUser.uid}`)
+
     if (!decodedUser) {
       return res.status(403).send({
         success: false,
@@ -40,6 +42,7 @@ const authMiddleware = async (req, res, next) => {
       });
     }
     req.user = userFromDB;
+    req.fireUser = decodedUser;
     next();
   } catch (e) {
     console.log(e.message);

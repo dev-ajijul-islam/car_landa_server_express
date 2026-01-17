@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/create",createNotification);
-router.get("/:userId",getNotifications);
+router.get("/get",getNotifications);
 
 
 module.exports = router;

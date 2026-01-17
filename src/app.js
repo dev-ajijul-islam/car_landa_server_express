@@ -44,7 +44,7 @@ app.use("/orders", authMiddleware, orderRoutes);
 app.use("/tracking", authMiddleware, trackingRoutes);
 app.use('/payment',authMiddleware, paymentRoutes);
 
-app.use("/notifications",notificationRoutes);
+app.use("/notifications",authMiddleware,notificationRoutes);
 
 
 module.exports = app;
