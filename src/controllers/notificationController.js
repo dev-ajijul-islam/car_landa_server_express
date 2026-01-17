@@ -36,3 +36,8 @@ const getNotifications = async (req, res) => {
     });
   }
 };
+
+module.exports = {
+  createNotification,
+  getNotifications,
+};
