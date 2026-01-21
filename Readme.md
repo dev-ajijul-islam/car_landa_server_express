@@ -215,13 +215,3 @@ src/
 * Clean, maintainable codebase
 
 ---
-
-## 🏁 Final Note
-
-This backend demonstrates **real-world authentication practices** using **Firebase Admin SDK**, making it suitable for **production-grade applications**.
-
-Perfect for showcasing backend security knowledge in a **fresher / junior developer portfolio**.
-
----
-
-⭐ If you like this project, consider giving it a star!
